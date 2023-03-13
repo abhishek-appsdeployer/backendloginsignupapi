@@ -15,12 +15,7 @@ mongoose.connect('mongodb://localhost:27017/mydatabase', {
 }).then((_) => console.log("Connection to MongoDB eshtablished!"))
 .catch((err) => console.log(err));  ;
 
-// const db = mongoose.connection;
 
-// db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', function() {
-//   console.log('Connected to database');
-// });
 
 app.use(express.json());
 
@@ -77,6 +72,20 @@ app.post('/login', (req, res) => {
   });
 
 });
+
+// get all users 
+app.get('/users', async (req, res) => {
+  try {
+    const users = await User.find({});
+    console.log(users);
+    res.json(users);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
 
 app.post('/changepassword', async (req, res) => {
   try {
